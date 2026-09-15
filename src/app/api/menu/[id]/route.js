@@ -21,6 +21,7 @@ export async function GET(request, { params }) {
           amount,
           price,
           memo,
+          recipe,
 
           amount_unit:unit!menus_amount_unit_fkey (
             unit_value
@@ -112,39 +113,6 @@ export async function GET(request, { params }) {
   }
 }
 
-// {
-//     "name": "1231234",
-//     "amount": 1,
-//     "price": 10000,
-//     "memo": null,
-//     "amount_unit": "gram",
-//     "currency_unit": "vnd",
-//     "category": "basic_menu",
-//     "ingredients": [
-//         {
-//             "ingredientId": "d0b23e73-f4ab-4a6b-b84b-bd78fbfe867d",
-//             "name": "계란",
-//             "amount": 3,
-//             "amount_unit": "piece",
-//             "purchaseQuantity": 10,
-//             "quantity_unit": "piece",
-//             "price": 26000,
-//             "currency_unit": "vnd"
-//         },
-//         {
-//             "ingredientId": "d1853068-4644-4f3c-99a0-98b7c6a2e22f",
-//             "name": "테스트재료",
-//             "amount": 1,
-//             "amount_unit": "kilogram",
-//             "purchaseQuantity": 100,
-//             "quantity_unit": "kilogram",
-//             "price": 100000,
-//             "currency_unit": "vnd"
-//         }
-//     ],
-//     "priceMode": "manual"
-// }
-
 export async function PATCH(request, { params }) {
   const { id } = await params;
 
@@ -219,6 +187,7 @@ export async function PATCH(request, { params }) {
         amount: body.amount,
         price: body.price,
         memo: body.memo ?? null,
+        recipe: body.recipe ?? null,
         amount_unit: amountUnitId,
         currency_unit: currencyUnitId,
         category: categoryUnitId,

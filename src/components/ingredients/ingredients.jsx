@@ -26,11 +26,13 @@ function Ingredients({
   const [addIngredientOpen, setAddIngredientOpen] = React.useState(false)
   const [addCategoryOpen, setAddCategoryOpen] = React.useState(false)
 
-  const {unit, loading} = useUnit();
+  const {unit, loading, refreshUnit} = useUnit();
 
   const [refreshKey, setRefreshKey] = React.useState(0)
 
-  const refreshIngredients = () => {
+  const refreshIngredients = async () => {
+    await refreshUnit()
+
     setRefreshKey((prev) => prev + 1)
   }
 
@@ -61,8 +63,12 @@ function Ingredients({
       <section>
         <IngredientsList search={search} refreshKey={refreshKey} />
       </section>
-      <DialogAddIngredients unit={unit} open={addIngredientOpen} setOpen={setAddIngredientOpen}
-        onSuccess={refreshIngredients} />
+      {
+        addIngredientOpen && (
+          <DialogAddIngredients unit={unit} open={addIngredientOpen} setOpen={setAddIngredientOpen}
+            onSuccess={refreshIngredients} />
+        )
+      }
       <DialogAddCategory open={addCategoryOpen} setOpen={setAddCategoryOpen}
         onSuccess={refreshIngredients} />
     </>

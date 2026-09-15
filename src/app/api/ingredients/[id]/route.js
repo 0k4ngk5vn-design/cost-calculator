@@ -32,6 +32,17 @@ export async function GET(request, { params }) {
 
           category:unit!ingredients_category_fkey (
             unit_value
+          ),
+
+          menus:menu_ingredients (
+            amount,
+            amount_unit:unit(
+              unit_value
+            ),
+            menu:menus (
+              id,
+              name
+            )
           )
         `,
       )
@@ -72,15 +83,6 @@ export async function GET(request, { params }) {
     );
   }
 }
-
-// "name": "코카콜라",
-//         "quantity": 24,
-//         "price": 210000,
-//         "memo": null,
-//         "supplier": null,
-//         "unit": "piece",
-//         "currency": "vnd",
-//         "category": "drink"
 
 export async function PATCH(request, { params }) {
   const { id } = await params;

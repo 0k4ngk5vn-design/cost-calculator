@@ -79,15 +79,15 @@ function DialogAddIngredients({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add ingredient");
+        alert('실패하였습니다.\n\n잠시 후 다시 시도하세요.')
       }
 
       const data = await response.json();
-    } catch (error) {
-    } finally {
       setOpen(false);
       setForm(createInitialForm())
       onSuccess?.()
+    } catch (error) {
+      alert('실페하였습니다.\n\n잠시 후 다시 시도하세요.')
     }
   }
 
@@ -110,7 +110,7 @@ function DialogAddIngredients({
             새로운 재료를 추가합니다.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col border py-3 px-3 gap-3">
+        <div className="flex flex-col border py-3 px-3 gap-3 text-sm">
           <div className="flex justify-between items-center">
             <p className="whitespace-nowrap">이름</p>
             <Input

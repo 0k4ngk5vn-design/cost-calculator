@@ -87,7 +87,7 @@ function DialogAddMenu({
         const response = await fetch("/api/ingredients")
 
         if (!response.ok) {
-          throw new Error("Failed to fetch ingredients")
+        alert('실패하였습니다.\n\n잠시 후 다시 시도하세요.')
         }
 
         const data = await response.json()
@@ -135,7 +135,7 @@ function DialogAddMenu({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add ingredient");
+        alert('실패하였습니다.\n\n잠시 후 다시 시도하세요.')
       }
 
       const data = await response.json();
@@ -255,7 +255,7 @@ function DialogAddMenu({
               새로운 메뉴를 추가합니다.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <div className="max-h-96 overflow-y-auto pr-1 md:max-h-200">
+          <div className="max-h-96 overflow-y-auto pr-1 md:max-h-200 text-sm">
             <div className="flex flex-col border py-3 px-3 gap-3">
               <div className="flex justify-between items-center">
                 <p className="whitespace-nowrap">이름</p>

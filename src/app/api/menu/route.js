@@ -57,8 +57,6 @@ export async function GET() {
       );
     }
 
-    console.log(data);
-
     return NextResponse.json({
       success: true,
       message: "Success",
@@ -129,7 +127,7 @@ export async function POST(request) {
     // 2. 메뉴에 필요한 FK
     const amountUnitId = getUnitId("quantity", unit);
     const currencyUnitId = getUnitId("currency", currency);
-    const categoryUnitId = getUnitId("category", category);
+    const categoryUnitId = getUnitId("category_menu", category);
 
     if (!amountUnitId || !currencyUnitId || !categoryUnitId) {
       return NextResponse.json(
@@ -152,6 +150,7 @@ export async function POST(request) {
         currency_unit: currencyUnitId,
         category: categoryUnitId,
         memo: memo || null,
+        recipe: null,
       })
       .select("id")
       .single();

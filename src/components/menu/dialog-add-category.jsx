@@ -44,7 +44,7 @@ function DialogAddCategory({
       })
 
       if (!response.ok) {
-        throw new Error("Failed to add category")
+        alert('실패하였습니다.\n\n잠시 후 다시 시도하세요.')
       }
 
       const data = await response.json();

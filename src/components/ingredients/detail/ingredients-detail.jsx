@@ -16,11 +16,15 @@ import {
 } from "@/components/ui/select"
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item"
 import { useUnit } from "@/components/unit-provider";
 import { Loading } from "@/components/common/loading";
 
@@ -71,7 +75,7 @@ function IngredientsDetail({
         const response = await fetch(`/api/ingredients/${ingredientId}`)
 
         if (!response.ok) {
-          throw new Error("Failed to fetch ingredient")
+        alert('실패하였습니다.\n\n잠시 후 다시 시도하세요.')
         }
 
         const data = await response.json()
@@ -97,7 +101,7 @@ function IngredientsDetail({
       })
 
       if (!response.ok) {
-        throw new Error("Failed to fetch ingredient")
+        alert('실패하였습니다.\n\n잠시 후 다시 시도하세요.')
       }
 
       alert('성공하였습니다.')
@@ -128,7 +132,6 @@ function IngredientsDetail({
           <span className="text-center font-semibold">{form.name}</span>
           <DropdownMenu>
             <DropdownMenuTrigger render={<Button variant="link" size="icon"><Ellipsis size={28} /></Button>} />
-            
           </DropdownMenu>
         </div>
       </section>
@@ -303,21 +306,27 @@ function IngredientsDetail({
             </div>
           </div>
           <div>
-            <span className="font-semibold">적용 레시피 ()</span>
-            <div className="border py-3 px-3 mt-2 text-end">
-              <span className="text-md text-blue-600">
-                {form?.price != null && form?.quantity > 0
-                  ? `${(form.price / form.quantity).toLocaleString()}${
-                      currencyUnitItems?.find(
-                        (item) => item.value === (form?.currency ?? "")
-                      )?.label ?? ""
-                    } / ${
-                      quantityUnitItems?.find(
-                        (item) => item.value === (form?.unit ?? "")
-                      )?.label ?? ""
-                    }`
-                  : ""}
-                </span>
+            <span className="font-semibold">적용된 레시피</span>
+            <div className="border py-3 px-3 mt-2 text-end flex flex-col gap-3">
+              {
+                (form?.menus || []).map((object, index) => {
+                  return (
+                    <Item variant="outline" key={index}>
+                      <ItemContent>
+                        <ItemTitle>{object?.menu?.name || ""}</ItemTitle>
+                        <ItemDescription>
+                          {`${object?.amount}${quantityUnitItems.find((item) => item.value === object?.amount_unit?.unit_value)?.label} 사용`}
+                        </ItemDescription>
+                      </ItemContent>
+                      <ItemActions>
+                        <Button variant="outline" size="sm" onClick={() => router.push(`/menu/${object?.menu?.id}`)}>
+                          메뉴보기
+                        </Button>
+                      </ItemActions>
+                    </Item>
+                  )
+                })
+              }
             </div>
           </div>
         </div>

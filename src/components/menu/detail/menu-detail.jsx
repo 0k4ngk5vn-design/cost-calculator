@@ -26,6 +26,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
 import { useUnit } from "@/components/unit-provider";
 import { Loading } from "@/components/common/loading";
 import { DialogSelectIngredient } from "../dialog-select-ingredient";
@@ -80,7 +81,7 @@ function MenuDetail({
         const response = await fetch("/api/ingredients")
 
         if (!response.ok) {
-          throw new Error("Failed to fetch ingredients")
+        alert('실패하였습니다.\n\n잠시 후 다시 시도하세요.')
         }
 
         const data = await response.json()
@@ -100,7 +101,7 @@ function MenuDetail({
         const response = await fetch(`/api/menu/${menuId}`)
 
         if (!response.ok) {
-          throw new Error("Failed to fetch ingredient")
+        alert('실패하였습니다.\n\n잠시 후 다시 시도하세요.')
         }
 
         const data = await response.json()
@@ -129,7 +130,7 @@ function MenuDetail({
       })
 
       if (!response.ok) {
-        throw new Error("Failed to fetch ingredient")
+        alert('실패하였습니다.\n\n잠시 후 다시 시도하세요.')
       }
 
       alert('성공하였습니다.')
@@ -966,6 +967,21 @@ function MenuDetail({
 
                 </div>
 
+              </div>
+            </div>
+            <div>
+              <span className="font-semibold">레시피</span>
+              <div className="flex flex-col border py-3 px-3 gap-3 mt-2">
+                <Textarea
+                  className="h-64 resize-none"
+                  value={form?.recipe ?? ""}
+                  onChange={(e) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      recipe: e.target.value,
+                    }))
+                  }
+                  placeholder="레시피(선택)" />
               </div>
             </div>
           </div>

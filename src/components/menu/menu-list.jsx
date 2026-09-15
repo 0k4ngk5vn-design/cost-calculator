@@ -31,7 +31,7 @@ function MenuList({
       const response = await fetch("/api/menu")
 
       if (!response.ok) {
-        throw new Error("Failed to fetch menu")
+        alert('실패하였습니다.\n\n잠시 후 다시 시도하세요.')
       }
 
       const data = await response.json()
@@ -95,18 +95,33 @@ function MenuList({
   const filteredItems = React.useMemo(() => {
     const keyword = search?.trim().toLowerCase()
 
-    if (!keyword) {
-      return items
-    }
+    const result = !keyword
+      ? [...items]
+      : items
+          .map((item) => ({
+            ...item,
+            contents: item.contents.filter((content) =>
+              content.name?.toLowerCase().includes(keyword)
+            ),
+          }))
+          .filter((item) => item.contents.length > 0)
 
-    return items
-      .map((item) => ({
-        ...item,
-        contents: item.contents.filter((content) =>
-          content.name?.toLowerCase().includes(keyword)
-        ),
-      }))
-      .filter((item) => item.contents.length > 0)
+    return result.sort((a, b) => {
+      // basic은 무조건 첫 번째
+      if (a.value === "basic_menu" && b.value !== "basic_menu") {
+        return -1
+      }
+
+      if (a.value !== "basic_menu" && b.value === "basic_menu") {
+        return 1
+      }
+
+      // 나머지는 카테고리 이름순
+      return a.categoryName.localeCompare(
+        b.categoryName,
+        "ko"
+      )
+    })
   }, [items, search])
 
   if (loading) {

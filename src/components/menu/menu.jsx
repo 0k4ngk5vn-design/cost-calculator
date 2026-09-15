@@ -26,11 +26,13 @@ function Menu({
   const [addMenuOpen, setAddMenuOpen] = React.useState(false)
   const [addCategoryOpen, setAddCategoryOpen] = React.useState(false)
 
-  const {unit, loading} = useUnit();
+  const {unit, loading, refreshUnit} = useUnit();
 
   const [refreshKey, setRefreshKey] = React.useState(0)
 
-  const refreshMenu = () => {
+  const refreshMenu = async () => {
+    await refreshUnit()
+
     setRefreshKey((prev) => prev + 1)
   }
 
@@ -61,8 +63,10 @@ function Menu({
       <section>
         <MenuList search={search} refreshKey={refreshKey} />
       </section>
-      <DialogAddMenu unit={unit} open={addMenuOpen} setOpen={setAddMenuOpen}
-        onSuccess={refreshMenu} />
+      {addMenuOpen && (
+        <DialogAddMenu unit={unit} open={addMenuOpen} setOpen={setAddMenuOpen}
+          onSuccess={refreshMenu} />
+      )}
       <DialogAddCategory open={addCategoryOpen} setOpen={setAddCategoryOpen}
         onSuccess={refreshMenu}/>
     </>
